@@ -149,14 +149,14 @@ static int IconIndexFor(const Entry& e) {
 
 static void InitImageLists() {
     SHFILEINFOW sfi{};
-    HIMAGELIST small = (HIMAGELIST)SHGetFileInfoW(
+    HIMAGELIST hSmall = (HIMAGELIST)SHGetFileInfoW(
         L"C:\\", 0, &sfi, sizeof(sfi),
         SHGFI_SYSICONINDEX | SHGFI_SMALLICON);
-    HIMAGELIST large = (HIMAGELIST)SHGetFileInfoW(
+    HIMAGELIST hLarge = (HIMAGELIST)SHGetFileInfoW(
         L"C:\\", 0, &sfi, sizeof(sfi),
         SHGFI_SYSICONINDEX | SHGFI_LARGEICON);
-    g_app.img_small = small;
-    g_app.img_large = large;
+    g_app.img_small = hSmall;
+    g_app.img_large = hLarge;
 }
 
 // ------------------------------------------------------------------ listing
