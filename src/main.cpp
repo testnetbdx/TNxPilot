@@ -23,6 +23,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 #include <shlobj.h>
+#include <shellapi.h>
 #include <shlwapi.h>
 #include <gdiplus.h>
 
