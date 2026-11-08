@@ -1,0 +1,42 @@
+name: Build TNxPilot (Windows, native C++)
+
+# DO NOT run this workflow without the user's explicit 'koro'.
+# It only builds when manually dispatched or on a version tag.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up MSVC
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build TNxPilot.exe (cl.exe, /O2, static CRT /MT)
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cl /nologo /O2 /MT /std:c++17 /EHsc /W3 ^
+            /DUNICODE /D_UNICODE /DWIN32_LEAN_AND_MEAN ^
+            src\main.cpp src\fileops.cpp src\config.cpp src\dialogs.cpp ^
+            /link /SUBSYSTEM:WINDOWS /OUT:TNxPilot.exe ^
+            comctl32.lib gdiplus.lib shlwapi.lib shell32.lib
+
+      - name: Build offline installer (Inno Setup)
+        run: |
+          choco install innosetup -y
+          iscc installer.iss
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: TNxPilot-Windows-v1.0
+          path: |
+            TNxPilot.exe
+            installer-output/TNxPilot-Setup-v1.0.exe
