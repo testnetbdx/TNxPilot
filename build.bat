@@ -25,7 +25,7 @@ cl /nologo /O2 /MT /std:c++17 /EHsc /W3 ^
   /DUNICODE /D_UNICODE /DWIN32_LEAN_AND_MEAN /DNOMINMAX ^
   src\main.cpp src\fileops.cpp src\config.cpp src\dialogs.cpp ^
   /link /SUBSYSTEM:WINDOWS /OUT:TNxPilot.exe ^
-  comctl32.lib gdiplus.lib shlwapi.lib shell32.lib
+  comctl32.lib gdiplus.lib shlwapi.lib shell32.lib user32.lib gdi32.lib
 if errorlevel 1 (
   echo BUILD FAILED — see the compiler errors above.
   pause
